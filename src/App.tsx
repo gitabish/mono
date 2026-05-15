@@ -166,14 +166,7 @@ export default function App() {
     <main className="relative min-h-screen selection:bg-ink selection:text-paper bg-paper overflow-x-hidden pt-20">
       <Grain />
       
-      {/* SVG Filters for Ink Bleed effect */}
-      <svg className="hidden">
-        <filter id="ink-bleed">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.2" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="ink-bleed" />
-          <feComposite in="SourceGraphic" in2="ink-bleed" operator="atop" />
-        </filter>
-      </svg>
+      {/* Performance optimized: Removed heavy SVG filters */}
 
       {/* Progress Bar */}
       <motion.div 
@@ -205,7 +198,10 @@ export default function App() {
 
       {/* Hero Section (Refactored to Fluid/Organic Style) */}
       <section className="relative min-h-[95vh] flex flex-col justify-center px-6 md:px-12 overflow-hidden border-b-2 border-ink bg-paper animate-in fade-in duration-1000">
-        <Smoke />
+        {/* Smoke (Simplified) */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-10 mix-blend-overlay">
+          <div className="absolute w-[80vw] h-[80vw] bg-charcoal/5 rounded-full blur-[120px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2" />
+        </div>
         <div className="absolute inset-0 noise opacity-5 pointer-events-none" />
         <div className="absolute inset-0 scribble-texture opacity-20 pointer-events-none" />
         
@@ -263,73 +259,41 @@ export default function App() {
           </div>
         </motion.div>
 
-        {/* Driving Truck Animation */}
-        <motion.div 
-          initial={{ x: "-100%" }}
-          animate={{ x: "200%" }}
-          transition={{ 
-            duration: 40, 
-            repeat: Infinity, 
-            ease: "linear"
-          }}
-          className="absolute bottom-[15%] left-0 z-20 opacity-15 pointer-events-none hidden md:block"
-          style={{ willChange: "transform" }}
+        {/* Driving Truck (Stopped for performance) */}
+        <div 
+          className="absolute bottom-[15%] left-10 z-20 opacity-15 pointer-events-none hidden md:block"
         >
           <div className="relative group">
             <svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
               <path d="M20 100H220V50H160L140 25H40V50H20V100Z" fill="currentColor" className="text-ink" />
               {/* Wheels */}
-              <motion.circle 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                cx="60" cy="100" r="12" fill="white" stroke="currentColor" strokeWidth="4" className="text-ink" 
-              />
-              <motion.circle 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                cx="180" cy="100" r="12" fill="white" stroke="currentColor" strokeWidth="4" className="text-ink" 
-              />
+              <circle cx="60" cy="100" r="12" fill="white" stroke="currentColor" strokeWidth="4" className="text-ink" />
+              <circle cx="180" cy="100" r="12" fill="white" stroke="currentColor" strokeWidth="4" className="text-ink" />
               {/* Window */}
               <rect x="50" y="40" width="60" height="30" fill="white" rx="2" stroke="currentColor" strokeWidth="2" className="text-ink" />
               {/* Coffee Logo on Truck */}
               <circle cx="180" cy="65" r="15" fill="white" />
               <path d="M175 65C175 70 185 70 185 65H175ZM185 60L180 55L175 60" stroke="black" fill="none" strokeWidth="1" />
             </svg>
-            <div className="absolute top-6 left-14 font-hand text-xs text-ink rotate-[-2deg] bg-white px-2 py-1 border-[1px] border-ink rounded pointer-events-auto cursor-default hover:scale-110 transition-transform">
+            <div className="absolute top-6 left-14 font-hand text-xs text-ink rotate-[-2deg] bg-white px-2 py-1 border-[1px] border-ink rounded pointer-events-none shadow-sm">
                 Cafe on wheels.
             </div>
-            {/* Smoke from exhaust */}
-            <motion.div 
-              animate={{ opacity: [0, 1, 0], scale: [0.5, 1.5, 2], y: [0, -20, -40], x: [0, -10, -20] }}
-              transition={{ duration: 2, repeat: Infinity }}
-              className="absolute bottom-4 left-4 w-4 h-4 bg-ink/20 rounded-full blur-sm"
-            />
           </div>
-        </motion.div>
+        </div>
 
-        {/* Floating Coffee Beans */}
-        {[1, 2, 3, 4].map((i) => (
+        {/* Floating Coffee Beans (Simplified animation) */}
+        {[1, 2].map((i) => (
           <motion.div
             key={i}
-            animate={{ 
-              y: [0, -40, 0], 
-              rotate: [0, 360],
-              x: [0, i % 2 === 0 ? 30 : -30, 0]
-            }}
-            transition={{ 
-              duration: 6 + i, 
-              repeat: Infinity, 
-              ease: "easeInOut" 
-            }}
+            initial={{ opacity: 0.1 }}
             className="absolute opacity-10 pointer-events-none hidden lg:block"
             style={{ 
-              top: `${15 + (i * 15)}%`, 
-              left: `${10 + (i * 20)}%`,
-              zIndex: 40,
-              willChange: "transform"
+              top: `${20 + (i * 30)}%`, 
+              left: `${15 + (i * 40)}%`,
+              zIndex: 40
             }}
           >
-            <CoffeeBean size={32 + (i * 8)} className="text-ink" />
+            <CoffeeBean size={40} className="text-ink" />
           </motion.div>
         ))}
 
@@ -358,10 +322,10 @@ export default function App() {
                 transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
                 className="relative"
               >
-                <div className="font-hand text-5xl md:text-7xl text-ink/30 mb-[-2.5rem] ml-4 md:ml-40 rotate-[-10deg] block animate-float pointer-events-none tracking-tight">
+                <div className="font-hand text-5xl md:text-7xl text-ink/30 mb-[-2.5rem] ml-4 md:ml-40 rotate-[-10deg] block pointer-events-none tracking-tight">
                   Fuel for the forsaken.
                 </div>
-                <h1 className="font-display text-[18vw] md:text-[12vw] leading-[0.8] uppercase tracking-[-0.05em] ink-bleed select-none flex flex-col text-ink">
+                <h1 className="font-display text-[18vw] md:text-[12vw] leading-[0.8] uppercase tracking-[-0.05em] select-none flex flex-col text-ink">
                   <span className="block drop-shadow-sm">DARKER</span>
                   <div className="flex items-center -mt-[2vw]">
                     <span className="italic font-serif normal-case text-[10vw] md:text-[7vw] tracking-normal ml-[15vw] opacity-95 relative">
@@ -414,9 +378,9 @@ export default function App() {
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent pointer-events-none" />
                 </motion.div>
 
-                {/* Layered Blobs behind Hero Image */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] bg-dust/40 blob pointer-events-none -z-10 animate-pulse border-2 border-ink/5" />
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] border-[1px] border-dashed border-ink/10 blob pointer-events-none -z-10 animate-spin-slow" />
+                {/* Layered Blobs behind Hero Image (Simplified) */}
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[115%] h-[115%] bg-dust/20 blob pointer-events-none -z-10 border-2 border-ink/5" />
+                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[105%] h-[105%] border-[1px] border-dashed border-ink/10 blob pointer-events-none -z-10" />
 
                 {/* Floating UI Elements */}
                 <motion.div 
@@ -546,7 +510,7 @@ export default function App() {
                 <Coffee size={24} />
               </motion.div>
 
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border-[1px] border-dashed border-ink/20 blob pointer-events-none animate-spin-slow" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border-[1px] border-dashed border-ink/20 blob pointer-events-none" />
             </div>
 
             <div className="space-y-12 relative">
@@ -610,7 +574,7 @@ export default function App() {
         <div className="absolute inset-0 noise opacity-10" />
         <div className="relative z-10 max-w-screen-2xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-24 border-b-2 border-paper/20 pb-12">
-            <h2 className="font-display text-8xl md:text-[14vw] uppercase tracking-tighter leading-none italic forced-color-adjust-none ink-flicker">THE FIX</h2>
+            <h2 className="font-display text-8xl md:text-[14vw] uppercase tracking-tighter leading-none italic forced-color-adjust-none">THE FIX</h2>
             <div className="bg-paper text-ink px-6 py-2 font-mono text-xs uppercase font-black skew-x-[-15deg] mt-6 md:mt-0">Menu Vol. 2.4</div>
           </div>
 
@@ -773,7 +737,7 @@ export default function App() {
                 Don't be a stranger.
               </motion.div>
               
-              <h3 className="font-display text-[12vw] md:text-[10vw] uppercase tracking-tighter leading-[0.8] ink-bleed">
+              <h3 className="font-display text-[12vw] md:text-[10vw] uppercase tracking-tighter leading-[0.8]">
                 STAY <br />
                 <span className="italic font-serif normal-case brightness-75">Loose</span>
               </h3>
