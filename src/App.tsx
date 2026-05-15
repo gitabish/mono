@@ -52,7 +52,7 @@ const CoffeeBean = ({ className, size = 32 }: { className?: string, size?: numbe
     className={className}
     xmlns="http://www.w3.org/2000/svg"
   >
-    <path d="M19.5,8.5c0-3.04-3.36-5.5-7.5-5.5S4.5,5.46,4.5,8.5c0,1.72,1.06,3.25,2.71,4.25 C5.56,13.75,4.5,15.28,4.5,17c0,3.04,3.36,5.5,7.5,5.5s7.5-2.46,7.5-5.5c0-1.72-1.06-3.25-2.71-4.25 C18.44,11.75,19.5,10.22,19.5,8.5z M12,21c-3.31,0-6-1.79-6-4c0-1.3,1.02-2.46,2.69-3.2l6.62,4.87C14.43,19.9,13.27,20.7,12,21z M12,9.15l-5,4.1c-0.62-0.62-1-1.63-1-2.75c0-2.21,2.69-4,6-4c3.31,0,6,1.79,6,4c0,1.12-0.38,2.13-1,2.75 L12,9.15z M12,12.33l-3.31,2.87C9.68,15.71,10.79,16,12,16c1.21,0,2.32-0.29,3.31-0.8L12,12.33z" />
+    <path d="M19.3,5.1C17.7,2,14.3,0,10.7,0C6.6,0,3.1,2.6,1.4,6.5c-0.8,1.8-1.2,3.7-1.2,5.7c0,5.6,4.5,10.2,10.2,10.2c5.6,0,10.2-4.5,10.2-10.2C20.5,10.1,20.1,8.3,19.3,6.5z M10.2,20.5c-4.4,0-8-3.6-8-8c0-1.3,0.3-2.6,0.9-3.8C4.5,11,7,12.5,10.2,12.5s5.7-1.5,7-3.8c0.6,1.2,0.9,2.5,0.9,3.8C18.2,16.9,14.6,20.5,10.2,20.5z" />
   </svg>
 );
 
@@ -84,7 +84,7 @@ const SectionHeading = ({ title, subtitle, number }: { title: string, subtitle?:
           initial={{ y: 50, opacity: 0 }}
           animate={isInView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.8, ease: [0.33, 1, 0.68, 1] }}
-          className="font-display text-8xl md:text-[12vw] leading-[0.8] uppercase tracking-tighter"
+          className="font-display text-[95px] leading-[0.8] uppercase tracking-tighter ml-[-17px] text-center"
         >
           {title}
         </motion.h2>
@@ -100,16 +100,17 @@ const SectionHeading = ({ title, subtitle, number }: { title: string, subtitle?:
 
 const Smoke = () => (
   <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-30 mix-blend-overlay">
-    {[...Array(5)].map((_, i) => (
+    {[...Array(3)].map((_, i) => (
       <motion.div
         key={i}
         initial={{ x: -100, y: '100%', opacity: 0, scale: 0.5 }}
-        animate={{ 
+        whileInView={{ 
           x: ['0%', '10%', '-5%', '15%'],
           y: ['100%', '-20%'],
           opacity: [0, 0.4, 0.6, 0],
           scale: [0.5, 1.5, 2]
         }}
+        viewport={{ once: false }}
         transition={{ 
           duration: 15 + i * 2,
           repeat: Infinity,
@@ -117,6 +118,7 @@ const Smoke = () => (
           delay: i * 3
         }}
         className="absolute w-96 h-96 bg-charcoal/20 rounded-full blur-[100px]"
+        style={{ willChange: "transform, opacity" }}
       />
     ))}
   </div>
@@ -144,8 +146,8 @@ export default function App() {
       {/* SVG Filters for Ink Bleed effect */}
       <svg className="hidden">
         <filter id="ink-bleed">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="0.3" result="blur" />
-          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 20 -10" result="ink-bleed" />
+          <feGaussianBlur in="SourceGraphic" stdDeviation="0.2" result="blur" />
+          <feColorMatrix in="blur" mode="matrix" values="1 0 0 0 0  0 1 0 0 0  0 0 1 0 0  0 0 0 30 -15" result="ink-bleed" />
           <feComposite in="SourceGraphic" in2="ink-bleed" operator="atop" />
         </filter>
       </svg>
@@ -185,9 +187,9 @@ export default function App() {
         <div className="absolute inset-0 scribble-texture opacity-20 pointer-events-none" />
         
         {/* Organic Layered Background Elements */}
-        <motion.div style={{ y: blobY1 }} className="absolute top-[-10%] left-[-5%] w-[45vw] h-[45vw] bg-dust/40 blur-[100px] blob pointer-events-none border-4 border-ink/5" />
-        <motion.div style={{ y: blobY2 }} className="absolute bottom-[10%] right-[-10%] w-[55vw] h-[55vw] bg-charcoal/5 blur-[120px] blob pointer-events-none border-2 border-dashed border-ink/5" />
-        <motion.div style={{ y: blobY3 }} className="absolute top-1/4 left-1/4 w-[20vw] h-[20vw] bg-white/30 blur-[80px] blob pointer-events-none mix-blend-overlay" />
+        <motion.div style={{ y: blobY1, willChange: "transform" }} className="absolute top-[-10%] left-[-5%] w-[45vw] h-[45vw] bg-dust/40 blur-[60px] blob pointer-events-none border-4 border-ink/5" />
+        <motion.div style={{ y: blobY2, willChange: "transform" }} className="absolute bottom-[10%] right-[-10%] w-[55vw] h-[55vw] bg-charcoal/5 blur-[80px] blob pointer-events-none border-2 border-dashed border-ink/5" />
+        <motion.div style={{ y: blobY3, willChange: "transform" }} className="absolute top-1/4 left-1/4 w-[20vw] h-[20vw] bg-white/30 blur-[40px] blob pointer-events-none mix-blend-overlay" />
 
         {/* Coffee Stain Doodle */}
         <motion.div 
@@ -205,6 +207,7 @@ export default function App() {
           animate={{ y: [0, -30, 0], rotate: [0, 15, 0] }}
           transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
           className="absolute top-1/4 right-[10%] z-20 opacity-10 hidden lg:block hover:opacity-100 transition-opacity cursor-help"
+          style={{ willChange: "transform" }}
         >
           <Skull size={180} className="text-ink" />
           <div className="absolute -top-4 -right-4 p-2 bg-white border-2 border-ink rounded-lg font-hand text-xs rotate-12 shadow-sm">Die for it</div>
@@ -214,6 +217,7 @@ export default function App() {
           animate={{ y: [0, 20, 0], rotate: [0, -10, 0] }}
           transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
           className="absolute bottom-1/4 left-[5%] z-20 opacity-15 hidden lg:block grayscale"
+          style={{ willChange: "transform" }}
         >
           <Fingerprint size={120} className="text-ink" />
         </motion.div>
@@ -246,6 +250,7 @@ export default function App() {
             ease: "linear"
           }}
           className="absolute bottom-[15%] left-0 z-20 opacity-15 pointer-events-none hidden md:block"
+          style={{ willChange: "transform" }}
         >
           <div className="relative group">
             <svg width="240" height="120" viewBox="0 0 240 120" xmlns="http://www.w3.org/2000/svg">
@@ -297,7 +302,8 @@ export default function App() {
             style={{ 
               top: `${15 + (i * 15)}%`, 
               left: `${10 + (i * 20)}%`,
-              zIndex: 40 
+              zIndex: 40,
+              willChange: "transform"
             }}
           >
             <CoffeeBean size={32 + (i * 8)} className="text-ink" />
@@ -309,6 +315,7 @@ export default function App() {
           animate={{ x: [-10, 10, -10], y: [0, -10, 0] }}
           transition={{ duration: 5, repeat: Infinity }}
           className="absolute bottom-[25%] right-[10%] z-40 hidden lg:flex flex-col items-center group cursor-pointer"
+          style={{ willChange: "transform" }}
         >
           <div className="p-4 bg-paper paper-cutout rounded-2xl group-hover:bg-ink group-hover:text-paper transition-all duration-500">
             <TruckLogo size={120} className="transition-colors" />
@@ -328,13 +335,18 @@ export default function App() {
                 transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
                 className="relative"
               >
-                <div className="font-hand text-5xl md:text-8xl text-ink/20 mb-[-3rem] ml-4 md:ml-24 rotate-[-8deg] block animate-float pointer-events-none">
-                  Wake the dead.
+                <div className="font-hand text-5xl md:text-7xl text-ink/20 mb-[-2.5rem] ml-4 md:ml-40 rotate-[-10deg] block animate-float pointer-events-none tracking-tight">
+                  Fuel for the forsaken.
                 </div>
-                <h1 className="font-display text-[20vw] md:text-[14vw] leading-[0.8] uppercase tracking-[-0.04em] ink-bleed select-none flex flex-col text-ink">
+                <h1 className="font-display text-[18vw] md:text-[12vw] leading-[0.8] uppercase tracking-[-0.05em] ink-bleed select-none flex flex-col text-ink">
                   <span className="block">DARKER</span>
-                  <span className="italic font-serif normal-case text-[10vw] md:text-[7vw] tracking-normal -mt-[2vw] ml-[10vw] opacity-90">than</span>
-                  <span className="block -mt-[2vw]">NOIR</span>
+                  <div className="flex items-center -mt-[2vw]">
+                    <span className="italic font-serif normal-case text-[10vw] md:text-[7vw] tracking-normal ml-[15vw] opacity-90 relative">
+                      than
+                      <CoffeeBean size={28} className="absolute -top-6 -right-10 text-ink/30 rotate-15" />
+                    </span>
+                  </div>
+                  <span className="block -mt-[1vw]">NOIR.</span>
                 </h1>
                 
                 <div className="absolute -bottom-12 -left-4 md:-left-8 space-y-2">
@@ -372,6 +384,8 @@ export default function App() {
                   <img 
                     src="/truck.jpg" 
                     alt="Truck Cafe" 
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover grayscale contrast-125 brightness-90 group-hover:scale-110 transition-transform duration-[2s]"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-ink/40 to-transparent pointer-events-none" />
@@ -383,13 +397,25 @@ export default function App() {
 
                 {/* Floating UI Elements */}
                 <motion.div 
-                  animate={{ y: [0, -15, 0], rotate: [-5, 5, -5] }}
+                  animate={{ y: [0, -15, 0], rotate: [-8, 8, -8] }}
                   transition={{ duration: 4, repeat: Infinity }}
                   whileHover={{ scale: 1.1, rotate: 0 }}
-                  className="absolute -top-8 -right-8 p-6 bg-white border-2 border-ink rounded-2xl shadow-xl z-20 flex flex-col items-center gap-2 paper-cutout cursor-pointer"
+                  className="absolute -top-12 -right-4 md:-right-12 p-8 bg-white border-2 border-ink rounded-3xl shadow-[20px_20px_0px_0px_rgba(17,17,17,1)] z-20 flex flex-col items-center gap-3 paper-cutout cursor-pointer hover:shadow-none transition-all duration-300"
                 >
-                  <CoffeeBean size={40} className="text-ink" />
-                  <span className="font-hand text-xl">Pure Ink</span>
+                  <div className="relative">
+                    <CoffeeBean size={48} className="text-ink" />
+                    <motion.div 
+                      animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                      transition={{ duration: 2, repeat: Infinity }}
+                      className="absolute -top-1 -right-1"
+                    >
+                      <Star size={16} className="fill-ink" />
+                    </motion.div>
+                  </div>
+                  <div className="text-center">
+                    <span className="font-display text-2xl uppercase tracking-tighter block leading-none">OBSIDIAN</span>
+                    <span className="font-hand text-lg opacity-60">Gold Standard</span>
+                  </div>
                 </motion.div>
 
                 <motion.div 
@@ -409,8 +435,8 @@ export default function App() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-12 mt-24 border-t-2 border-ink pb-8 pt-12 relative z-30">
-            <div className="max-w-md font-serif italic text-2xl leading-tight opacity-70">
-              "We brew the chaos that wakes the dead. No filters, no corporate soul, just raw caffeinated power."
+            <div className="max-w-md font-serif italic text-2xl md:text-3xl leading-tight opacity-80">
+              "We brew the distilled essence of insomnia. No corporate ethics, just raw soul and high-voltage beans."
             </div>
             
             <motion.div
@@ -617,6 +643,8 @@ export default function App() {
                   <img 
                     src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop" 
                     alt="Cafe Interior" 
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover grayscale brightness-90 contrast-125 mix-blend-multiply opacity-80 transition-transform duration-1000 group-hover:scale-110"
                   />
                   <div className="absolute top-8 left-8 p-3 bg-paper border-2 border-ink rounded-lg font-hand text-xl rotate-[-12deg] shadow-lg">Our Living Room.</div>
