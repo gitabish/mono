@@ -452,14 +452,11 @@ export default function App() {
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col gap-12 items-center text-center mb-24">
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              whileInView={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 1 }}
+            <div
               className="px-6 py-2 border-2 border-ink rounded-full font-hand text-xl rotate-[-3deg]"
             >
               Who the hell are we?
-            </motion.div>
+            </div>
             <h2 className="font-display text-8xl md:text-[15vw] leading-[0.8] uppercase tracking-tighter">
               THE <br /> 
               <span className="italic font-serif normal-case brightness-150">Vibe</span>
@@ -468,47 +465,39 @@ export default function App() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-24 items-center">
             <div className="relative group">
-              <div className="relative z-20 aspect-square overflow-hidden rounded-[20%_80%_30%_70%_/_60%_30%_70%_40%] thick-border bg-dust group-hover:scale-95 transition-transform duration-700">
+              <div className="relative z-20 aspect-square overflow-hidden rounded-[20%_80%_30%_70%_/_60%_30%_70%_40%] thick-border bg-dust transition-all duration-700">
                 <img 
                   src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=800&auto=format&fit=crop" 
                   alt="Cafe Vibe" 
-                  className="w-full h-full object-cover grayscale brightness-110 contrast-125 mix-blend-multiply opacity-90 group-hover:scale-110 transition-transform duration-1000"
+                  className="w-full h-full object-cover grayscale brightness-110 contrast-125 mix-blend-multiply opacity-90 transition-transform duration-1000"
                 />
               </div>
               
               {/* Floating Stickers */}
-              <motion.div 
-                animate={{ y: [0, -20, 0], rotate: [5, 10, 5] }}
-                transition={{ duration: 5, repeat: Infinity }}
-                className="absolute -top-12 -left-12 w-32 h-32 bg-paper thick-border rounded-full flex items-center justify-center p-4 shadow-xl z-30"
+              <div 
+                className="absolute -top-12 -left-12 w-32 h-32 bg-paper thick-border rounded-full flex items-center justify-center p-4 shadow-xl z-30 rotate-[5deg]"
               >
                 <Ghost size={48} className="text-ink" />
-              </motion.div>
+              </div>
               
-              <motion.div 
-                animate={{ y: [0, 20, 0], rotate: [-10, -5, -10] }}
-                transition={{ duration: 7, repeat: Infinity }}
-                className="absolute -bottom-8 -right-8 bg-ink text-paper p-6 thick-border rounded-2xl shadow-xl z-30"
+              <div 
+                className="absolute -bottom-8 -right-8 bg-ink text-paper p-6 thick-border rounded-2xl shadow-xl z-30 rotate-[-10deg]"
               >
                 <div className="font-hand text-2xl text-center">Boring? <br/> Never.</div>
-              </motion.div>
+              </div>
 
               {/* Smaller doodles */}
-              <motion.div 
-                animate={{ rotate: 360 }}
-                transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
-                className="absolute top-1/2 -right-8 bg-white border-2 border-ink p-2 rounded-full z-30 shadow-md"
+              <div 
+                className="absolute top-1/2 -right-8 bg-white border-2 border-ink p-2 rounded-full z-30 shadow-md rotate-12"
               >
                 <Star size={24} className="fill-ink" />
-              </motion.div>
+              </div>
 
-              <motion.div 
-                animate={{ y: [0, -10, 0], x: [0, 10, 0] }}
-                transition={{ duration: 4, repeat: Infinity }}
-                className="absolute top-0 right-1/4 bg-white border-2 border-ink p-3 blob z-30 shadow-md"
+              <div 
+                className="absolute top-0 right-1/4 bg-white border-2 border-ink p-3 blob z-30 shadow-md rotate-[-8deg]"
               >
                 <Coffee size={24} />
-              </motion.div>
+              </div>
 
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[110%] h-[110%] border-[1px] border-dashed border-ink/20 blob pointer-events-none" />
             </div>
@@ -552,21 +541,17 @@ export default function App() {
           </div>
         </div>
 
-        {/* Floating Background Icons */}
-        <motion.div 
-          animate={{ rotate: 360 }}
-          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
-          className="absolute top-1/4 left-10 opacity-5 pointer-events-none"
+        {/* Floating Background Icons (Simplified) */}
+        <div 
+          className="absolute top-1/4 left-10 opacity-5 pointer-events-none rotate-12"
         >
           <Skull size={200} />
-        </motion.div>
-        <motion.div 
-          animate={{ y: [0, 50, 0] }}
-          transition={{ duration: 10, repeat: Infinity }}
-          className="absolute bottom-1/4 right-10 opacity-5 pointer-events-none"
+        </div>
+        <div 
+          className="absolute bottom-1/4 right-10 opacity-5 pointer-events-none -rotate-12"
         >
           <Ghost size={300} />
-        </motion.div>
+        </div>
       </section>
 
       {/* Brew Section */}
