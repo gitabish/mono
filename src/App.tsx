@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import Lenis from "lenis";
 import { 
   motion, 
   useScroll, 
@@ -128,6 +129,28 @@ const Smoke = () => (
 
 export default function App() {
   const [isNavOpen, setIsNavOpen] = useState(false);
+
+  useEffect(() => {
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: "vertical",
+      gestureOrientation: "vertical",
+      smoothWheel: true,
+    });
+
+    function raf(time: number) {
+      lenis.raf(time);
+      requestAnimationFrame(raf);
+    }
+
+    requestAnimationFrame(raf);
+
+    return () => {
+      lenis.destroy();
+    };
+  }, []);
+
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
@@ -335,15 +358,15 @@ export default function App() {
                 transition={{ duration: 1.2, ease: [0.33, 1, 0.68, 1] }}
                 className="relative"
               >
-                <div className="font-hand text-5xl md:text-7xl text-ink/20 mb-[-2.5rem] ml-4 md:ml-40 rotate-[-10deg] block animate-float pointer-events-none tracking-tight">
+                <div className="font-hand text-5xl md:text-7xl text-ink/30 mb-[-2.5rem] ml-4 md:ml-40 rotate-[-10deg] block animate-float pointer-events-none tracking-tight">
                   Fuel for the forsaken.
                 </div>
                 <h1 className="font-display text-[18vw] md:text-[12vw] leading-[0.8] uppercase tracking-[-0.05em] ink-bleed select-none flex flex-col text-ink">
-                  <span className="block">DARKER</span>
+                  <span className="block drop-shadow-sm">DARKER</span>
                   <div className="flex items-center -mt-[2vw]">
-                    <span className="italic font-serif normal-case text-[10vw] md:text-[7vw] tracking-normal ml-[15vw] opacity-90 relative">
+                    <span className="italic font-serif normal-case text-[10vw] md:text-[7vw] tracking-normal ml-[15vw] opacity-95 relative">
                       than
-                      <CoffeeBean size={28} className="absolute -top-6 -right-10 text-ink/30 rotate-15" />
+                      <CoffeeBean size={28} className="absolute -top-6 -right-10 text-ink/40 rotate-15" />
                     </span>
                   </div>
                   <span className="block -mt-[1vw]">NOIR.</span>
@@ -460,8 +483,8 @@ export default function App() {
         <div className="absolute inset-0 noise opacity-5 pointer-events-none" />
         
         {/* Organic Background Blobs */}
-        <div className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-dust/30 blur-[120px] blob -translate-y-1/2 translate-x-1/4 pointer-events-none" />
-        <div className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-charcoal/5 blur-[100px] blob translate-y-1/2 -translate-x-1/4 pointer-events-none" />
+        <div style={{ willChange: "transform" }} className="absolute top-0 right-0 w-[60vw] h-[60vw] bg-dust/30 blur-[60px] blob -translate-y-1/2 translate-x-1/4 pointer-events-none" />
+        <div style={{ willChange: "transform" }} className="absolute bottom-0 left-0 w-[50vw] h-[50vw] bg-charcoal/5 blur-[50px] blob translate-y-1/2 -translate-x-1/4 pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col gap-12 items-center text-center mb-24">
@@ -625,8 +648,8 @@ export default function App() {
         <div className="absolute top-0 left-0 w-full h-full scribble-texture opacity-10 pointer-events-none" />
         
         {/* Parallax Blobs */}
-        <motion.div style={{ y: blobY2 }} className="absolute top-1/4 right-[-10%] w-[50vw] h-[50vw] bg-dust/30 blur-[100px] blob pointer-events-none" />
-        <motion.div style={{ y: blobY1 }} className="absolute bottom-1/4 left-[-10%] w-[40vw] h-[40vw] bg-charcoal/5 blur-[120px] blob pointer-events-none border-2 border-dashed border-ink/5" />
+        <motion.div style={{ y: blobY2, willChange: "transform" }} className="absolute top-1/4 right-[-10%] w-[50vw] h-[50vw] bg-dust/30 blur-[60px] blob pointer-events-none" />
+        <motion.div style={{ y: blobY1, willChange: "transform" }} className="absolute bottom-1/4 left-[-10%] w-[40vw] h-[40vw] bg-charcoal/5 blur-[60px] blob pointer-events-none border-2 border-dashed border-ink/5" />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <SectionHeading 
@@ -736,8 +759,8 @@ export default function App() {
         <div className="absolute inset-0 scribble-texture opacity-10 pointer-events-none" />
         
         {/* Organic Blobs */}
-        <div className="absolute top-1/2 left-[-10%] w-[60vw] h-[60vw] bg-dust/40 blur-[120px] blob pointer-events-none" />
-        <div className="absolute bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-charcoal/5 blur-[100px] blob pointer-events-none" />
+        <div style={{ willChange: "transform" }} className="absolute top-1/2 left-[-10%] w-[60vw] h-[60vw] bg-dust/40 blur-[60px] blob pointer-events-none" />
+        <div style={{ willChange: "transform" }} className="absolute bottom-[-10%] right-[-5%] w-[50vw] h-[50vw] bg-charcoal/5 blur-[50px] blob pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="flex flex-col lg:flex-row gap-24 items-center">
@@ -840,7 +863,7 @@ export default function App() {
       {/* Footer Area (Fluid & Organic) */}
       <footer className="relative py-24 md:py-32 px-6 md:px-12 border-t-2 border-ink bg-paper overflow-hidden">
         <div className="absolute inset-0 scribble-texture opacity-5 pointer-events-none" />
-        <div className="absolute top-1/2 right-[-5%] w-[30vw] h-[30vw] bg-dust/20 blur-[100px] blob pointer-events-none" />
+        <div style={{ willChange: "transform" }} className="absolute top-1/2 right-[-5%] w-[30vw] h-[30vw] bg-dust/20 blur-[50px] blob pointer-events-none" />
 
         <div className="max-w-7xl mx-auto relative z-10 flex flex-col gap-24">
           <div className="flex flex-col md:flex-row justify-between items-center md:items-end gap-16">
